@@ -2,58 +2,14 @@
 
 import Image from "next/image"
 import { Flame, ThumbsUp, Filter, SlidersHorizontal, MapPin } from "lucide-react"
-
-const places = [
-  {
-    id: 1,
-    name: "大望桥",
-    image: "/images/dawang-bridge.jpg",
-    hot: 200,
-    tags: ["陆家嘴街道", "共赏江景如画"],
-    subtitle: "2023年...",
-  },
-  {
-    id: 2,
-    name: "正坑水碧道",
-    image: "/images/zhengkeng-greenway.jpg",
-    hot: 200,
-    tags: ["陆家嘴街道", "共赏江景如画"],
-  },
-  {
-    id: 3,
-    name: "深圳市兰科植物保护中心",
-    image: "/images/orchid-center.jpg",
-    tags: ["陆家嘴街道", "共赏江景如画"],
-  },
-  {
-    id: 4,
-    name: "大望桥",
-    image: "/images/yinfeng-bridge.jpg",
-    tags: ["陆家嘴街道", "共赏江景如画"],
-  },
-  {
-    id: 5,
-    name: "深圳金石艺术博物馆",
-    image: "/images/jinshi-museum.jpg",
-    tags: ["文化艺术", "博物馆"],
-  },
-  {
-    id: 6,
-    name: "引凤桥",
-    image: "/images/city-skyline.jpg",
-    tags: ["山水景观", "步行桥"],
-  },
-]
+import { places, type Place } from "@/lib/explore-data"
 
 interface PlaceCardProps {
-  name: string
-  image: string
-  hot?: number
-  tags: string[]
+  place: Place
   onClick?: () => void
 }
 
-function PlaceCard({ name, image, hot, tags, onClick }: PlaceCardProps) {
+function PlaceCard({ place, onClick }: PlaceCardProps) {
   return (
     <button
       onClick={onClick}
@@ -61,24 +17,30 @@ function PlaceCard({ name, image, hot, tags, onClick }: PlaceCardProps) {
     >
       <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-2 shadow-sm">
         <Image
-          src={image}
-          alt={name}
+          src={place.image}
+          alt={place.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        {hot !== undefined && (
+        {place.hot !== undefined && (
           <div className="absolute top-2 right-2 flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-semibold backdrop-blur-sm">
             <Flame className="w-2.5 h-2.5" />
             <ThumbsUp className="w-2.5 h-2.5" />
-            {hot}
+            {place.hot}
+          </div>
+        )}
+        {!place.hot && place.likes > 0 && (
+          <div className="absolute top-2 right-2 flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-card/90 text-foreground text-[10px] font-semibold backdrop-blur-sm">
+            <ThumbsUp className="w-2.5 h-2.5 text-primary" />
+            {place.likes}
           </div>
         )}
       </div>
       <h3 className="text-sm font-semibold text-foreground leading-tight mb-1 line-clamp-1">
-        {name}
+        {place.name}
       </h3>
       <div className="flex flex-wrap gap-1">
-        {tags.map((tag) => (
+        {place.tags.slice(0, 2).map((tag) => (
           <span key={tag} className="text-[10px] text-primary font-medium px-1.5 py-0.5 rounded bg-primary/10">
             {tag}
           </span>
@@ -94,7 +56,7 @@ interface ListViewProps {
 
 export function ListView({ onPlaceClick }: ListViewProps) {
   return (
-    <div className="bg-card">
+    <div className="bg-card flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {/* Filter bar */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
         <button className="flex items-center gap-1 text-sm font-semibold text-primary">
@@ -117,10 +79,7 @@ export function ListView({ onPlaceClick }: ListViewProps) {
         {places.map((place) => (
           <PlaceCard
             key={place.id}
-            name={place.name}
-            image={place.image}
-            hot={place.hot}
-            tags={place.tags}
+            place={place}
             onClick={() => onPlaceClick?.(place.name)}
           />
         ))}
