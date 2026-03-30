@@ -1,4 +1,4 @@
-// 行街指南 - 点位数据和类型定义
+// 行街指南 - 点位数据和类型定义 v2
 
 export type PlaceCategory = "逸游" | "乐购" | "欢娱" | "畅行" | "舌尖" | "宿享"
 
@@ -353,3 +353,6 @@ export function formatDistance(meters: number): string {
 export function isWithinCheckinRange(distance: number): boolean {
   return distance <= 300
 }
+
+// 为了兼容性，添加别名导出
+export const places = placesData

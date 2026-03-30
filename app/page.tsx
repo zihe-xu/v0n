@@ -1,5 +1,6 @@
 "use client"
 
+// Force rebuild
 import { useState } from "react"
 import { PhoneFrame } from "@/components/phone-frame"
 import { AppHeader } from "@/components/app-header"
@@ -149,7 +150,7 @@ export default function Home() {
           <div className="text-center mb-6">
             <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
               <span className="w-8 h-0.5 rounded-full bg-primary" />
-              行街指南管理后台 (Web端)
+              ���街指南管理后台 (Web端)
               <span className="w-8 h-0.5 rounded-full bg-primary" />
             </h2>
             <p className="text-xs text-muted-foreground mt-2">简约纯白风格 - 地图管理、点位管理、评论审核、打卡记录、数据统计</p>
