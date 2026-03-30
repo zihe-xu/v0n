@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { Flame, ThumbsUp, MapPin, Navigation } from "lucide-react"
-import { places } from "@/lib/explore-data"
 
 interface MapMarkerProps {
   name: string
@@ -34,32 +33,22 @@ function MapMarker({ name, x, y, hot, onClick }: MapMarkerProps) {
   )
 }
 
-// 地图标记点位置配置
-const markerPositions: Record<string, { x: number; y: number }> = {
-  "正坑水碧道": { x: 62, y: 25 },
-  "大望桥": { x: 38, y: 32 },
-  "深圳市兰科植物保护中心": { x: 50, y: 42 },
-  "深圳金石艺术博物馆": { x: 48, y: 52 },
-  "引凤桥": { x: 40, y: 62 },
-  "梧桐山": { x: 68, y: 60 },
-  "思月书院": { x: 52, y: 75 },
-  "绿道": { x: 15, y: 78 },
-  "东部过境高速": { x: 30, y: 90 },
-}
-
 interface MapViewProps {
   onMarkerClick?: (name: string) => void
 }
 
 export function MapView({ onMarkerClick }: MapViewProps) {
-  // 将景点数据与位置信息结合
-  const markers = places
-    .filter(place => markerPositions[place.name])
-    .map(place => ({
-      name: place.name,
-      ...markerPositions[place.name],
-      hot: place.hot,
-    }))
+  const markers = [
+    { name: "正坑水碧道", x: 62, y: 25, hot: 200 },
+    { name: "大望桥", x: 38, y: 32 },
+    { name: "深圳市兰科植物保护中心", x: 50, y: 42 },
+    { name: "深圳金石艺术博物馆", x: 48, y: 52 },
+    { name: "引凤桥", x: 40, y: 62 },
+    { name: "梧桐山", x: 68, y: 60 },
+    { name: "思月书院", x: 52, y: 75, hot: 200 },
+    { name: "绿道", x: 15, y: 78, hot: 10 },
+    { name: "东部过境高速", x: 30, y: 90 },
+  ]
 
   return (
     <div className="relative w-full aspect-[3/4] bg-emerald-50 overflow-hidden">

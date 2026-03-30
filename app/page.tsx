@@ -35,7 +35,6 @@ import { MarketApplyView } from "@/components/market-apply-view"
 import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { InteractiveApp } from "@/components/interactive-app"
-import { ExploreView } from "@/components/explore-view"
 import { MapListView } from "@/components/map-list-view"
 import { FeedbackListView } from "@/components/feedback-list-view"
 import { FeedbackSubmitView } from "@/components/feedback-submit-view"
@@ -127,15 +126,7 @@ export default function Home() {
             </PhoneFrame>
           </div>
 
-          {/* Screen 3.5: Interactive Explore */}
-          <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>可交互探索</ScreenLabel>
-            <PhoneFrame>
-              <ExploreView />
-            </PhoneFrame>
-          </div>
-
-          {/* Screen 3.6: Map List View (Text Version) */}
+          {/* Screen 3.5: Map List View (Text Version) */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>掌上地图(文字版)</ScreenLabel>
             <PhoneFrame>
