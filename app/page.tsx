@@ -35,6 +35,8 @@ import { MarketApplyView } from "@/components/market-apply-view"
 import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { InteractiveApp } from "@/components/interactive-app"
+import { StampWallView } from "@/components/stamp-wall-view"
+import { ExploreAdminDashboard } from "@/components/explore-admin-dashboard"
 import { MapListView } from "@/components/map-list-view"
 import { FeedbackListView } from "@/components/feedback-list-view"
 import { FeedbackSubmitView } from "@/components/feedback-submit-view"
@@ -62,7 +64,7 @@ export default function Home() {
       <div className="text-center mb-10">
         <h1 className="text-2xl font-bold text-foreground tracking-tight">智慧社区 - 高保真设计稿</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          共 47 个页面 + 1 后台 - 涵盖社区地图、活动日历、社区论坛、服务大厅、通知公告、社区食堂、安心托育、社区招工、棚友集市、市民留言、个人中心、场地预约、AI助手等核心功能
+          共 52 个页面 + 2 后台 - 涵盖行街指南(地图打卡)、活动日历、社区论坛、服务大厅、通知公告、社区食堂、安心托育、社区招工、棚友集市、市民留言、个人中心、场地预约、AI助手等核心功能
         </p>
       </div>
 
@@ -86,14 +88,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 1: Original 5 screens */}
+      {/* Section 1: 行街指南(地图打卡) */}
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
             <span className="w-8 h-0.5 rounded-full bg-primary" />
-            社区探索与活动
+            行街指南(地图打卡)
             <span className="w-8 h-0.5 rounded-full bg-primary" />
           </h2>
+          <p className="text-xs text-muted-foreground mt-2">支持地图浏览、分类筛选、景点详情、打卡收集邮戳、评论互动等完整功能</p>
         </div>
         <div className="flex flex-wrap justify-center gap-6">
           {/* Screen 1: Map View */}
@@ -108,11 +111,9 @@ export default function Home() {
 
           {/* Screen 2: Detail View */}
           <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>景点详情</ScreenLabel>
+            <ScreenLabel>景点详情(含打卡)</ScreenLabel>
             <PhoneFrame>
-              <AppHeader />
-              <CategoryTabs isMapView={true} />
-              <DetailView />
+              <DetailView placeId="1" />
             </PhoneFrame>
           </div>
 
@@ -126,14 +127,49 @@ export default function Home() {
             </PhoneFrame>
           </div>
 
-          {/* Screen 3.5: Map List View (Text Version) */}
+          {/* Screen 4: Stamp Wall */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我的邮戳墙</ScreenLabel>
+            <PhoneFrame>
+              <StampWallView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 5: Map List View (Text Version) */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>掌上地图(文字版)</ScreenLabel>
             <PhoneFrame>
               <MapListView />
             </PhoneFrame>
           </div>
+        </div>
 
+        {/* Explore Admin Dashboard */}
+        <div className="mt-10">
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+              行街指南管理后台 (Web端)
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+            </h2>
+            <p className="text-xs text-muted-foreground mt-2">简约纯白风格 - 地图管理、点位管理、评论审核、打卡记录、数据统计</p>
+          </div>
+          <div className="max-w-[1200px] mx-auto">
+            <ExploreAdminDashboard />
+          </div>
+        </div>
+      </section>
+
+      {/* Section 2: Activity screens */}
+      <section className="mb-16">
+        <div className="text-center mb-6">
+          <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
+            <span className="w-8 h-0.5 rounded-full bg-primary" />
+            社区活动
+            <span className="w-8 h-0.5 rounded-full bg-primary" />
+          </h2>
+        </div>
+        <div className="flex flex-wrap justify-center gap-6">
           {/* Screen 4: Activity Calendar */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>活动日历</ScreenLabel>
@@ -158,7 +194,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 2: Services screen */}
+      {/* Section 3: Services screen */}
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">

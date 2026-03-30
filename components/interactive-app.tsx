@@ -31,6 +31,9 @@ import { MarketApplyView } from "@/components/market-apply-view"
 import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { MapView } from "@/components/map-view"
+import { ListView } from "@/components/list-view"
+import { DetailView } from "@/components/detail-view"
+import { StampWallView } from "@/components/stamp-wall-view"
 import { MapListView } from "@/components/map-list-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
@@ -78,6 +81,9 @@ type PageType =
   | "market-success"
   | "market-my"
   | "map"
+  | "map-list-view"
+  | "map-detail"
+  | "stamp-wall"
   | "map-list"
   | "activity"
   | "activity-detail"
@@ -108,6 +114,8 @@ interface InteractiveAppProps {
 export function InteractiveApp({ className }: InteractiveAppProps) {
   const [currentPage, setCurrentPage] = useState<PageType>("home")
   const [history, setHistory] = useState<PageType[]>([])
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null)
+  const [isMapViewMode, setIsMapViewMode] = useState(true)
 
   const navigate = (page: PageType) => {
     setHistory(prev => [...prev, currentPage])
@@ -171,7 +179,10 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
       "market-apply": "摊主报名",
       "market-success": "报名成功",
       "market-my": "我的摊位",
-      map: "社区地图",
+      map: "行街指南",
+      "map-list-view": "图文列表",
+      "map-detail": "景点详情",
+      "stamp-wall": "我的邮戳墙",
       "map-list": "掌上地图",
       activity: "活动日历",
       "activity-detail": "活动详情",
@@ -266,9 +277,60 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return (
           <>
             <AppHeader />
-            <CategoryTabs isMapView={true} />
-            <MapView />
+            <CategoryTabs 
+              isMapView={isMapViewMode} 
+              onToggleView={() => {
+                if (isMapViewMode) {
+                  setIsMapViewMode(false)
+                  navigate("map-list-view")
+                }
+              }}
+              onProfileClick={() => navigate("stamp-wall")}
+            />
+            <MapView 
+              onViewDetail={(placeId) => {
+                setSelectedPlaceId(placeId)
+                navigate("map-detail")
+              }}
+            />
           </>
+        )
+      case "map-list-view":
+        return (
+          <>
+            <AppHeader />
+            <CategoryTabs 
+              isMapView={false} 
+              onToggleView={() => {
+                setIsMapViewMode(true)
+                goBack()
+              }}
+              onProfileClick={() => navigate("stamp-wall")}
+            />
+            <ListView 
+              onPlaceClick={(placeId) => {
+                setSelectedPlaceId(placeId)
+                navigate("map-detail")
+              }}
+            />
+          </>
+        )
+      case "map-detail":
+        return (
+          <DetailView 
+            placeId={selectedPlaceId || undefined}
+            onBack={goBack}
+          />
+        )
+      case "stamp-wall":
+        return (
+          <StampWallView 
+            onBack={goBack}
+            onViewPlace={(placeId) => {
+              setSelectedPlaceId(placeId)
+              navigate("map-detail")
+            }}
+          />
         )
       case "map-list":
         return <MapListView />
@@ -333,7 +395,7 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
   return (
     <div className={`flex flex-col h-full bg-background ${className || ""}`}>
       {/* Header for inner pages */}
-      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "activity" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
+      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "map-list-view" && currentPage !== "map-detail" && currentPage !== "stamp-wall" && currentPage !== "activity" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
       
       {/* Main content */}
       <div className="flex-1 overflow-hidden flex flex-col">
