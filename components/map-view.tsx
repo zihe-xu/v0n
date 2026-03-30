@@ -1,25 +1,31 @@
 "use client"
 
 import Image from "next/image"
-import { Flame, ThumbsUp, MapPin, Navigation } from "lucide-react"
+import { Flame, ThumbsUp, MapPin, Navigation, Star } from "lucide-react"
 
 interface MapMarkerProps {
   name: string
   x: number
   y: number
   hot?: number
+  isRecommended?: boolean
   onClick?: () => void
 }
 
-function MapMarker({ name, x, y, hot, onClick }: MapMarkerProps) {
+function MapMarker({ name, x, y, hot, isRecommended, onClick }: MapMarkerProps) {
   return (
     <button
       onClick={onClick}
       className="absolute flex flex-col items-center gap-0.5 group"
       style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -100%)" }}
     >
-      <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-card shadow-lg border border-border text-xs font-medium text-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-        <MapPin className="w-3 h-3 text-primary group-hover:text-primary-foreground" />
+      <div className={`flex items-center gap-1 px-2 py-1 rounded-lg shadow-lg border text-xs font-medium transition-all ${
+        isRecommended 
+          ? "bg-primary text-primary-foreground border-primary" 
+          : "bg-card border-border text-foreground group-hover:bg-primary group-hover:text-primary-foreground"
+      }`}>
+        {isRecommended && <Star className="w-3 h-3 fill-current" />}
+        <MapPin className={`w-3 h-3 ${isRecommended ? "text-primary-foreground" : "text-primary group-hover:text-primary-foreground"}`} />
         {name}
       </div>
       {hot !== undefined && (
@@ -35,20 +41,25 @@ function MapMarker({ name, x, y, hot, onClick }: MapMarkerProps) {
 
 interface MapViewProps {
   onMarkerClick?: (name: string) => void
+  showRecommendedOnly?: boolean
 }
 
-export function MapView({ onMarkerClick }: MapViewProps) {
+export function MapView({ onMarkerClick, showRecommendedOnly = false }: MapViewProps) {
   const markers = [
-    { name: "正坑水碧道", x: 62, y: 25, hot: 200 },
-    { name: "大望桥", x: 38, y: 32 },
-    { name: "深圳市兰科植物保护中心", x: 50, y: 42 },
-    { name: "深圳金石艺术博物馆", x: 48, y: 52 },
-    { name: "引凤桥", x: 40, y: 62 },
-    { name: "梧桐山", x: 68, y: 60 },
-    { name: "思月书院", x: 52, y: 75, hot: 200 },
-    { name: "绿道", x: 15, y: 78, hot: 10 },
-    { name: "东部过境高速", x: 30, y: 90 },
+    { name: "正坑水碧道", x: 62, y: 25, hot: 200, isRecommended: true },
+    { name: "大望桥", x: 38, y: 32, isRecommended: false },
+    { name: "深圳市兰科植物保护中心", x: 50, y: 42, isRecommended: true },
+    { name: "深圳金石艺术博物馆", x: 48, y: 52, isRecommended: false },
+    { name: "引凤桥", x: 40, y: 62, isRecommended: false },
+    { name: "梧桐山", x: 68, y: 60, isRecommended: true },
+    { name: "思月书院", x: 52, y: 75, hot: 200, isRecommended: true },
+    { name: "绿道", x: 15, y: 78, hot: 10, isRecommended: false },
+    { name: "东部过境高速", x: 30, y: 90, isRecommended: false },
   ]
+
+  const filteredMarkers = showRecommendedOnly 
+    ? markers.filter(m => m.isRecommended) 
+    : markers
 
   return (
     <div className="relative w-full aspect-[3/4] bg-emerald-50 overflow-hidden">
@@ -75,7 +86,7 @@ export function MapView({ onMarkerClick }: MapViewProps) {
       </div>
       
       {/* Markers */}
-      {markers.map((m) => (
+      {filteredMarkers.map((m) => (
         <MapMarker
           key={m.name}
           {...m}

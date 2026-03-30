@@ -1,9 +1,11 @@
 "use client"
 
-import { ChevronDown, ArrowRightLeft, Compass, ShoppingBag, PartyPopper, Bike, UtensilsCrossed, BedDouble } from "lucide-react"
+import { useState } from "react"
+import { ChevronDown, ArrowRightLeft, Compass, ShoppingBag, PartyPopper, Bike, UtensilsCrossed, BedDouble, Star } from "lucide-react"
 
 interface CategoryTabsProps {
   onToggleView?: () => void
+  onRecommendedToggle?: (showRecommended: boolean) => void
   isMapView?: boolean
 }
 
@@ -16,7 +18,15 @@ const categories = [
   { label: "宿享金岭", icon: BedDouble, color: "bg-indigo-500" },
 ]
 
-export function CategoryTabs({ onToggleView, isMapView = true }: CategoryTabsProps) {
+export function CategoryTabs({ onToggleView, onRecommendedToggle, isMapView = true }: CategoryTabsProps) {
+  const [showRecommended, setShowRecommended] = useState(false)
+
+  const handleRecommendedClick = () => {
+    const newValue = !showRecommended
+    setShowRecommended(newValue)
+    onRecommendedToggle?.(newValue)
+  }
+
   return (
     <div className="bg-card">
       {/* Community selector & view toggle */}
@@ -35,6 +45,18 @@ export function CategoryTabs({ onToggleView, isMapView = true }: CategoryTabsPro
       </div>
       {/* Category pills */}
       <div className="flex gap-2 px-4 pb-3 overflow-x-auto scrollbar-hide">
+        {/* Official Recommended Button */}
+        <button
+          onClick={handleRecommendedClick}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
+            showRecommended 
+              ? "bg-primary text-primary-foreground" 
+              : "bg-amber-50 text-amber-600 hover:bg-amber-100"
+          }`}
+        >
+          <Star className={`w-3.5 h-3.5 ${showRecommended ? "fill-current" : ""}`} />
+          官方推荐
+        </button>
         {categories.map((cat) => {
           const Icon = cat.icon
           return (

@@ -36,6 +36,8 @@ import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { InteractiveApp } from "@/components/interactive-app"
 import { MapListView } from "@/components/map-list-view"
+import { CheckinView } from "@/components/checkin-view"
+import { CommentSubmitView } from "@/components/comment-submit-view"
 import { FeedbackListView } from "@/components/feedback-list-view"
 import { FeedbackSubmitView } from "@/components/feedback-submit-view"
 import { FeedbackDetailView } from "@/components/feedback-detail-view"
@@ -126,7 +128,23 @@ export default function Home() {
             </PhoneFrame>
           </div>
 
-          {/* Screen 3.5: Map List View (Text Version) */}
+          {/* Screen 3.5: Checkin View */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>景点打卡</ScreenLabel>
+            <PhoneFrame>
+              <CheckinView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 3.6: Comment Submit View */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>发布评论</ScreenLabel>
+            <PhoneFrame>
+              <CommentSubmitView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 3.7: Map List View (Text Version) */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>掌上地图(文字版)</ScreenLabel>
             <PhoneFrame>

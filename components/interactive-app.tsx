@@ -32,6 +32,10 @@ import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { MapView } from "@/components/map-view"
 import { MapListView } from "@/components/map-list-view"
+import { ListView } from "@/components/list-view"
+import { DetailView } from "@/components/detail-view"
+import { CheckinView } from "@/components/checkin-view"
+import { CommentSubmitView } from "@/components/comment-submit-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
 import { RecommendView } from "@/components/recommend-view"
@@ -79,6 +83,9 @@ type PageType =
   | "market-my"
   | "map"
   | "map-list"
+  | "map-detail"
+  | "map-checkin"
+  | "map-comment"
   | "activity"
   | "activity-detail"
   | "neighbor"
@@ -108,6 +115,7 @@ interface InteractiveAppProps {
 export function InteractiveApp({ className }: InteractiveAppProps) {
   const [currentPage, setCurrentPage] = useState<PageType>("home")
   const [history, setHistory] = useState<PageType[]>([])
+  const [showRecommendedOnly, setShowRecommendedOnly] = useState(false)
 
   const navigate = (page: PageType) => {
     setHistory(prev => [...prev, currentPage])
@@ -173,6 +181,9 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
       "market-my": "我的摊位",
       map: "社区地图",
       "map-list": "掌上地图",
+      "map-detail": "景点详情",
+      "map-checkin": "景点打卡",
+      "map-comment": "发布评论",
       activity: "活动日历",
       "activity-detail": "活动详情",
       neighbor: "邻里社区",
@@ -266,9 +277,37 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return (
           <>
             <AppHeader />
-            <CategoryTabs isMapView={true} />
-            <MapView />
+            <CategoryTabs 
+              isMapView={true} 
+              onRecommendedToggle={(show) => setShowRecommendedOnly(show)}
+            />
+            <MapView 
+              showRecommendedOnly={showRecommendedOnly}
+              onMarkerClick={() => navigate("map-detail")}
+            />
           </>
+        )
+      case "map-detail":
+        return (
+          <DetailView 
+            onClose={goBack}
+            onCheckin={() => navigate("map-checkin")}
+            onComment={() => navigate("map-comment")}
+          />
+        )
+      case "map-checkin":
+        return (
+          <CheckinView 
+            onClose={goBack}
+            onSuccess={goBack}
+          />
+        )
+      case "map-comment":
+        return (
+          <CommentSubmitView 
+            onClose={goBack}
+            onSuccess={goBack}
+          />
         )
       case "map-list":
         return <MapListView />
