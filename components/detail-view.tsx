@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Flame, ThumbsUp, Share2, Heart, Star, Phone, MapPin, Navigation, X, Stamp, MessageCircle, Send, ChevronRight } from "lucide-react"
+import { Flame, ThumbsUp, Share2, Heart, Star, Phone, MapPin, Navigation, X, Stamp, MessageCircle, Send, ChevronRight, CalendarCheck } from "lucide-react"
 
 interface Comment {
   id: number
@@ -18,11 +18,17 @@ interface DetailViewProps {
   onClose?: () => void
   onCheckin?: () => void
   onComment?: () => void
+  onBookVenue?: () => void
 }
 
-export function DetailView({ onClose, onCheckin, onComment }: DetailViewProps) {
+// 可预约场所列表（与景点名称对应）
+const BOOKABLE_PLACES = ["深圳市兰科植物保护中心", "深圳金石艺术术博物馆", "思月书院", "深圳金石艺术博物馆"]
+
+export function DetailView({ onClose, onCheckin, onComment, onBookVenue }: DetailViewProps) {
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(200)
+  const placeName = "思月书院"
+  const isBookable = BOOKABLE_PLACES.includes(placeName)
 
   const comments: Comment[] = [
     {
@@ -124,14 +130,25 @@ export function DetailView({ onClose, onCheckin, onComment }: DetailViewProps) {
           始建于清康熙年间，原为张姓宗祠，曾作为省港大罢工接待站，现为市级文物保护单位。书院重建后保留了岭南建筑风格，展示东门历史文化，是了解深圳城市变迁的重要窗口。
         </p>
 
-        {/* Checkin button */}
-        <button 
-          onClick={onCheckin}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold mb-4 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow"
-        >
-          <Stamp className="w-5 h-5" />
-          立即打卡 · 收集邮戳
-        </button>
+        {/* Action buttons row */}
+        <div className={`grid gap-2 mb-4 ${isBookable ? "grid-cols-2" : "grid-cols-1"}`}>
+          <button 
+            onClick={onCheckin}
+            className="flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow"
+          >
+            <Stamp className="w-5 h-5" />
+            立即打卡
+          </button>
+          {isBookable && (
+            <button 
+              onClick={onBookVenue}
+              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 text-white font-semibold shadow-lg shadow-emerald-500/20 hover:bg-emerald-600 transition-colors"
+            >
+              <CalendarCheck className="w-5 h-5" />
+              预约场地
+            </button>
+          )}
+        </div>
 
         {/* Interaction buttons */}
         <div className="flex items-center gap-2 mb-4">

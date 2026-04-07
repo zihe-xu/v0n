@@ -325,6 +325,7 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
             onClose={goBack}
             onCheckin={() => navigate("map-checkin")}
             onComment={() => navigate("map-comment")}
+            onBookVenue={() => navigate("venue-list")}
           />
         )
       case "map-checkin":
