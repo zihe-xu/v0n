@@ -38,6 +38,10 @@ import { CheckinView } from "@/components/checkin-view"
 import { CommentSubmitView } from "@/components/comment-submit-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
+import { ActivityApplyView } from "@/components/activity-apply-view"
+import { ActivityApplySuccessView } from "@/components/activity-apply-success-view"
+import { ActivityMyRegistrationsView } from "@/components/activity-my-registrations-view"
+import { ActivityCheckinView } from "@/components/activity-checkin-view"
 import { RecommendView } from "@/components/recommend-view"
 import { CommunityHeader } from "@/components/community-header"
 import { AppHeader } from "@/components/app-header"
@@ -88,6 +92,10 @@ type PageType =
   | "map-comment"
   | "activity"
   | "activity-detail"
+  | "activity-apply"
+  | "activity-apply-success"
+  | "activity-my"
+  | "activity-checkin"
   | "neighbor"
   | "profile"
   | "feedback"
@@ -186,6 +194,10 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
       "map-comment": "发布评论",
       activity: "活动日历",
       "activity-detail": "活动详情",
+      "activity-apply": "活动报名",
+      "activity-apply-success": "报名成功",
+      "activity-my": "我的报名",
+      "activity-checkin": "活动打卡",
       neighbor: "邻里社区",
       profile: "我的",
       feedback: "我的留言",
@@ -315,11 +327,46 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return (
           <>
             <AppHeader />
-            <ActivityCalendarView />
+            <ActivityCalendarView onActivityClick={() => navigate("activity-detail")} />
           </>
         )
       case "activity-detail":
-        return <ActivityDetailView />
+        return (
+          <ActivityDetailView
+            onBack={goBack}
+            onApply={() => navigate("activity-apply")}
+            onCheckin={() => navigate("activity-checkin")}
+            onMyRegistrations={() => navigate("activity-my")}
+          />
+        )
+      case "activity-apply":
+        return (
+          <ActivityApplyView
+            onBack={goBack}
+            onSuccess={() => navigate("activity-apply-success")}
+          />
+        )
+      case "activity-apply-success":
+        return (
+          <ActivityApplySuccessView
+            onBack={() => setCurrentPage("activity")}
+            onMyRegistrations={() => navigate("activity-my")}
+          />
+        )
+      case "activity-my":
+        return (
+          <ActivityMyRegistrationsView
+            onBack={goBack}
+            onCheckin={() => navigate("activity-checkin")}
+          />
+        )
+      case "activity-checkin":
+        return (
+          <ActivityCheckinView
+            onBack={goBack}
+            onSuccess={goBack}
+          />
+        )
       case "feedback":
         return <FeedbackListView />
       case "feedback-submit":
@@ -372,7 +419,7 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
   return (
     <div className={`flex flex-col h-full bg-background ${className || ""}`}>
       {/* Header for inner pages */}
-      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "activity" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
+      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "activity" && currentPage !== "activity-detail" && currentPage !== "activity-apply" && currentPage !== "activity-apply-success" && currentPage !== "activity-my" && currentPage !== "activity-checkin" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
       
       {/* Main content */}
       <div className="flex-1 overflow-hidden flex flex-col">

@@ -10,13 +10,18 @@ import {
   Users,
   Share2,
   CheckCircle2,
+  QrCode,
+  ClipboardList,
 } from "lucide-react"
 
 interface ActivityDetailViewProps {
   onBack?: () => void
+  onApply?: () => void
+  onCheckin?: () => void
+  onMyRegistrations?: () => void
 }
 
-export function ActivityDetailView({ onBack }: ActivityDetailViewProps) {
+export function ActivityDetailView({ onBack, onApply, onCheckin, onMyRegistrations }: ActivityDetailViewProps) {
   return (
     <div className="bg-background min-h-full flex flex-col">
       {/* Hero Image */}
@@ -144,8 +149,25 @@ export function ActivityDetailView({ onBack }: ActivityDetailViewProps) {
 
       {/* Bottom Bar */}
       <div className="sticky bottom-0 z-20 px-4 pb-5 pt-3 bg-gradient-to-t from-card via-card to-card/0">
+        <div className="flex items-center gap-2 mb-2.5">
+          <button
+            onClick={onCheckin}
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/10 text-emerald-700 text-sm font-semibold border border-emerald-200 hover:bg-emerald-500/20 transition-colors"
+          >
+            <QrCode className="w-4 h-4" />
+            活动打卡
+          </button>
+          <button
+            onClick={onMyRegistrations}
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-muted text-foreground text-sm font-semibold border border-border hover:bg-muted/80 transition-colors"
+          >
+            <ClipboardList className="w-4 h-4" />
+            我的报名
+          </button>
+        </div>
         <div className="flex items-center gap-3">
           <button
+            onClick={onApply}
             className="flex-1 py-3.5 rounded-2xl bg-primary text-primary-foreground text-base font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 active:scale-[0.98] transition-all"
           >
             我要报名

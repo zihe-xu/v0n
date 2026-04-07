@@ -9,6 +9,10 @@ import { DetailView } from "@/components/detail-view"
 import { ListView } from "@/components/list-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
+import { ActivityApplyView } from "@/components/activity-apply-view"
+import { ActivityApplySuccessView } from "@/components/activity-apply-success-view"
+import { ActivityMyRegistrationsView } from "@/components/activity-my-registrations-view"
+import { ActivityCheckinView } from "@/components/activity-checkin-view"
 import { CommunityHeader } from "@/components/community-header"
 import { RecommendView } from "@/components/recommend-view"
 import { ExchangeView } from "@/components/exchange-view"
@@ -165,12 +169,39 @@ export default function Home() {
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>活动详情</ScreenLabel>
             <PhoneFrame>
-              <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
-                <div className="w-8" />
-                <h1 className="text-lg font-semibold text-foreground">任务详情</h1>
-                <div className="w-8" />
-              </div>
               <ActivityDetailView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 6: Activity Apply */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>活动报名</ScreenLabel>
+            <PhoneFrame>
+              <ActivityApplyView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 7: Activity Apply Success */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>报名成功</ScreenLabel>
+            <PhoneFrame>
+              <ActivityApplySuccessView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 8: My Registrations */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我的报名</ScreenLabel>
+            <PhoneFrame>
+              <ActivityMyRegistrationsView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 9: Activity Checkin */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>活动打卡</ScreenLabel>
+            <PhoneFrame>
+              <ActivityCheckinView />
             </PhoneFrame>
           </div>
         </div>
