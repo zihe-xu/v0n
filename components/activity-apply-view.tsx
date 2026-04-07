@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, User, Phone, Users, MessageSquare, ChevronRight, Calendar, MapPin, CheckCircle2 } from "lucide-react"
+import { ChevronLeft, User, Phone, Calendar, MapPin, CheckCircle2 } from "lucide-react"
 
 interface ActivityApplyViewProps {
   onBack?: () => void
@@ -10,7 +10,6 @@ interface ActivityApplyViewProps {
 
 export function ActivityApplyView({ onBack, onSuccess }: ActivityApplyViewProps) {
   const [agreed, setAgreed] = useState(false)
-  const [count, setCount] = useState(1)
 
   return (
     <div className="flex flex-col h-full bg-background">
@@ -106,41 +105,7 @@ export function ActivityApplyView({ onBack, onSuccess }: ActivityApplyViewProps)
                   className="w-full px-4 py-3 bg-muted/50 rounded-xl border border-border text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                 />
               </div>
-              <div>
-                <label className="flex items-center gap-1.5 text-sm font-medium text-foreground mb-2">
-                  <Users className="w-4 h-4 text-primary" />
-                  报名人数
-                  <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setCount(c => Math.max(1, c - 1))}
-                    className="w-10 h-10 rounded-xl bg-muted border border-border flex items-center justify-center text-lg font-bold text-foreground hover:bg-primary/10 transition-colors"
-                  >
-                    -
-                  </button>
-                  <span className="w-12 text-center text-lg font-bold text-foreground">{count}</span>
-                  <button
-                    onClick={() => setCount(c => Math.min(5, c + 1))}
-                    className="w-10 h-10 rounded-xl bg-muted border border-border flex items-center justify-center text-lg font-bold text-foreground hover:bg-primary/10 transition-colors"
-                  >
-                    +
-                  </button>
-                  <span className="text-xs text-muted-foreground ml-1">每次最多报名5人</span>
-                </div>
-              </div>
-              <div>
-                <label className="flex items-center gap-1.5 text-sm font-medium text-foreground mb-2">
-                  <MessageSquare className="w-4 h-4 text-primary" />
-                  备注
-                  <span className="text-xs text-muted-foreground font-normal ml-1">(选填)</span>
-                </label>
-                <textarea
-                  rows={3}
-                  placeholder="如有特殊需求或说明，请在此填写"
-                  className="w-full px-4 py-3 bg-muted/50 rounded-xl border border-border text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none"
-                />
-              </div>
+
             </div>
           </div>
 
@@ -195,7 +160,7 @@ export function ActivityApplyView({ onBack, onSuccess }: ActivityApplyViewProps)
               : "bg-muted text-muted-foreground cursor-not-allowed"
           }`}
         >
-          确认报名（{count}人）
+          确认报名
         </button>
       </div>
     </div>
