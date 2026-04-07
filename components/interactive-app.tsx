@@ -32,8 +32,19 @@ import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { MapView } from "@/components/map-view"
 import { MapListView } from "@/components/map-list-view"
+import { ListView } from "@/components/list-view"
+import { DetailView } from "@/components/detail-view"
+import { CheckinView } from "@/components/checkin-view"
+import { CommentSubmitView } from "@/components/comment-submit-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
+import { ActivityApplyView } from "@/components/activity-apply-view"
+import { ActivityApplySuccessView } from "@/components/activity-apply-success-view"
+import { ActivityMyRegistrationsView } from "@/components/activity-my-registrations-view"
+import { ActivityCheckinView } from "@/components/activity-checkin-view"
+import { ActivityPublishView } from "@/components/activity-publish-view"
+import { ActivityMyPublishedView } from "@/components/activity-my-published-view"
+import { ActivityRegistrantsView } from "@/components/activity-registrants-view"
 import { RecommendView } from "@/components/recommend-view"
 import { CommunityHeader } from "@/components/community-header"
 import { AppHeader } from "@/components/app-header"
@@ -43,9 +54,12 @@ import { FeedbackSubmitView } from "@/components/feedback-submit-view"
 import { FeedbackDetailView } from "@/components/feedback-detail-view"
 import { FeedbackSuccessView } from "@/components/feedback-success-view"
 import { ProfileView } from "@/components/profile-view"
+import { VenueListView } from "@/components/venue-list-view"
 import { VenueMapView } from "@/components/venue-map-view"
 import { VenueDetailView } from "@/components/venue-detail-view"
+import { VenueBookingFormView } from "@/components/venue-booking-form-view"
 import { VenueBookingSuccessView } from "@/components/venue-booking-success-view"
+import { VenueMyBookingsView } from "@/components/venue-my-bookings-view"
 import { AIChatView } from "@/components/ai-chat-view"
 import { AISportsChatView } from "@/components/ai-sports-chat-view"
 import { AIActivityChatView } from "@/components/ai-activity-chat-view"
@@ -79,17 +93,31 @@ type PageType =
   | "market-my"
   | "map"
   | "map-list"
+  | "map-detail"
+  | "map-checkin"
+  | "map-comment"
   | "activity"
   | "activity-detail"
+  | "activity-apply"
+  | "activity-apply-success"
+  | "activity-my"
+  | "activity-checkin"
+  | "activity-publish"
+  | "activity-publish-success"
+  | "activity-my-published"
+  | "activity-registrants"
   | "neighbor"
   | "profile"
   | "feedback"
   | "feedback-submit"
   | "feedback-detail"
   | "feedback-success"
+  | "venue-list"
   | "venue-map"
   | "venue-detail"
+  | "venue-booking-form"
   | "venue-booking-success"
+  | "venue-my-bookings"
   | "ai-chat"
   | "ai-sports"
   | "ai-activity"
@@ -108,6 +136,7 @@ interface InteractiveAppProps {
 export function InteractiveApp({ className }: InteractiveAppProps) {
   const [currentPage, setCurrentPage] = useState<PageType>("home")
   const [history, setHistory] = useState<PageType[]>([])
+  const [showRecommendedOnly, setShowRecommendedOnly] = useState(false)
 
   const navigate = (page: PageType) => {
     setHistory(prev => [...prev, currentPage])
@@ -173,17 +202,31 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
       "market-my": "我的摊位",
       map: "社区地图",
       "map-list": "掌上地图",
+      "map-detail": "景点详情",
+      "map-checkin": "景点打卡",
+      "map-comment": "发布评论",
       activity: "活动日历",
       "activity-detail": "活动详情",
+      "activity-apply": "活动报名",
+      "activity-apply-success": "报名成功",
+      "activity-my": "我的报名",
+      "activity-checkin": "活动打卡",
+      "activity-publish": "发布活动",
+      "activity-publish-success": "发布成功",
+      "activity-my-published": "我发布的活动",
+      "activity-registrants": "报名人员",
       neighbor: "邻里社区",
       profile: "我的",
       feedback: "我的留言",
       "feedback-submit": "我要留言",
       "feedback-detail": "留言详情",
       "feedback-success": "提交成功",
+      "venue-list": "场地预约",
       "venue-map": "场地分布",
       "venue-detail": "场地详情",
+      "venue-booking-form": "填写预约信息",
       "venue-booking-success": "预约成功",
+      "venue-my-bookings": "我的预约",
       "ai-chat": "AI助手",
       "ai-sports": "场地预约助手",
       "ai-activity": "活动报名助手",
@@ -266,9 +309,38 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return (
           <>
             <AppHeader />
-            <CategoryTabs isMapView={true} />
-            <MapView />
+            <CategoryTabs 
+              isMapView={true} 
+              onRecommendedToggle={(show) => setShowRecommendedOnly(show)}
+            />
+            <MapView 
+              showRecommendedOnly={showRecommendedOnly}
+              onMarkerClick={() => navigate("map-detail")}
+            />
           </>
+        )
+      case "map-detail":
+        return (
+          <DetailView 
+            onClose={goBack}
+            onCheckin={() => navigate("map-checkin")}
+            onComment={() => navigate("map-comment")}
+            onBookVenue={() => navigate("venue-list")}
+          />
+        )
+      case "map-checkin":
+        return (
+          <CheckinView 
+            onClose={goBack}
+            onSuccess={goBack}
+          />
+        )
+      case "map-comment":
+        return (
+          <CommentSubmitView 
+            onClose={goBack}
+            onSuccess={goBack}
+          />
         )
       case "map-list":
         return <MapListView />
@@ -276,11 +348,67 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return (
           <>
             <AppHeader />
-            <ActivityCalendarView />
+            <ActivityCalendarView onActivityClick={() => navigate("activity-detail")} />
           </>
         )
       case "activity-detail":
-        return <ActivityDetailView />
+        return (
+          <ActivityDetailView
+            onBack={goBack}
+            onApply={() => navigate("activity-apply")}
+            onCheckin={() => navigate("activity-checkin")}
+            onMyRegistrations={() => navigate("activity-my")}
+          />
+        )
+      case "activity-apply":
+        return (
+          <ActivityApplyView
+            onBack={goBack}
+            onSuccess={() => navigate("activity-apply-success")}
+          />
+        )
+      case "activity-apply-success":
+        return (
+          <ActivityApplySuccessView
+            onBack={() => setCurrentPage("activity")}
+            onMyRegistrations={() => navigate("activity-my")}
+          />
+        )
+      case "activity-my":
+        return (
+          <ActivityMyRegistrationsView
+            onBack={goBack}
+            onCheckin={() => navigate("activity-checkin")}
+          />
+        )
+      case "activity-checkin":
+        return (
+          <ActivityCheckinView
+            onBack={goBack}
+            onSuccess={goBack}
+          />
+        )
+      case "activity-publish":
+        return (
+          <ActivityPublishView
+            onBack={goBack}
+            onSuccess={() => navigate("activity-my-published")}
+          />
+        )
+      case "activity-my-published":
+        return (
+          <ActivityMyPublishedView
+            onBack={goBack}
+            onPublish={() => navigate("activity-publish")}
+            onViewRegistrations={() => navigate("activity-registrants")}
+          />
+        )
+      case "activity-registrants":
+        return (
+          <ActivityRegistrantsView
+            onBack={goBack}
+          />
+        )
       case "feedback":
         return <FeedbackListView />
       case "feedback-submit":
@@ -289,12 +417,48 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
         return <FeedbackDetailView />
       case "feedback-success":
         return <FeedbackSuccessView />
+      case "venue-list":
+        return (
+          <VenueListView
+            onVenueClick={() => navigate("venue-detail")}
+            onViewMap={() => navigate("venue-map")}
+          />
+        )
       case "venue-map":
-        return <VenueMapView onNavigate={(page) => navigate(page as PageType)} />
+        return (
+          <VenueMapView
+            onNavigate={(page) => {
+              if (page === "venue-list") navigate("venue-list")
+              else navigate(page as PageType)
+            }}
+          />
+        )
       case "venue-detail":
-        return <VenueDetailView onNavigate={(page) => navigate(page as PageType)} />
+        return (
+          <VenueDetailView
+            onNavigate={(page) => {
+              if (page === "venue-booking-form") navigate("venue-booking-form")
+              else navigate(page as PageType)
+            }}
+          />
+        )
+      case "venue-booking-form":
+        return (
+          <VenueBookingFormView
+            onBack={goBack}
+            onSuccess={() => navigate("venue-booking-success")}
+          />
+        )
       case "venue-booking-success":
-        return <VenueBookingSuccessView />
+        return (
+          <VenueBookingSuccessView />
+        )
+      case "venue-my-bookings":
+        return (
+          <VenueMyBookingsView
+            onBack={goBack}
+          />
+        )
       case "ai-chat":
         return <AIChatView />
       case "ai-sports":
@@ -333,7 +497,7 @@ export function InteractiveApp({ className }: InteractiveAppProps) {
   return (
     <div className={`flex flex-col h-full bg-background ${className || ""}`}>
       {/* Header for inner pages */}
-      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "activity" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
+      {needsBackButton && currentPage !== "services" && currentPage !== "map" && currentPage !== "activity" && currentPage !== "activity-detail" && currentPage !== "activity-apply" && currentPage !== "activity-apply-success" && currentPage !== "activity-my" && currentPage !== "activity-checkin" && currentPage !== "activity-publish" && currentPage !== "activity-my-published" && currentPage !== "activity-registrants" && currentPage !== "venue-list" && currentPage !== "venue-booking-form" && currentPage !== "venue-my-bookings" && currentPage !== "neighbor" && currentPage !== "profile" && !currentPage.startsWith("ai-") && renderHeader()}
       
       {/* Main content */}
       <div className="flex-1 overflow-hidden flex flex-col">

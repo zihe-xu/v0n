@@ -290,7 +290,7 @@ export function VenueDetailView({ onNavigate }: VenueDetailViewProps) {
           </button>
         </div>
         <button 
-          onClick={() => onNavigate?.("venue-booking-success")}
+          onClick={() => onNavigate?.("venue-booking-form")}
           disabled={selectedSlots.length === 0}
           className={`flex-1 py-2.5 rounded-full font-semibold text-sm shadow-md transition-colors ${
             selectedSlots.length > 0 

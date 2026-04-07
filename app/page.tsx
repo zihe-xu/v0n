@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { Suspense } from "react"
 import { PhoneFrame } from "@/components/phone-frame"
 import { AppHeader } from "@/components/app-header"
 import { CategoryTabs } from "@/components/category-tabs"
@@ -9,6 +7,13 @@ import { DetailView } from "@/components/detail-view"
 import { ListView } from "@/components/list-view"
 import { ActivityCalendarView } from "@/components/activity-calendar-view"
 import { ActivityDetailView } from "@/components/activity-detail-view"
+import { ActivityApplyView } from "@/components/activity-apply-view"
+import { ActivityApplySuccessView } from "@/components/activity-apply-success-view"
+import { ActivityMyRegistrationsView } from "@/components/activity-my-registrations-view"
+import { ActivityCheckinView } from "@/components/activity-checkin-view"
+import { ActivityPublishView } from "@/components/activity-publish-view"
+import { ActivityMyPublishedView } from "@/components/activity-my-published-view"
+import { ActivityRegistrantsView } from "@/components/activity-registrants-view"
 import { CommunityHeader } from "@/components/community-header"
 import { RecommendView } from "@/components/recommend-view"
 import { ExchangeView } from "@/components/exchange-view"
@@ -36,14 +41,19 @@ import { MarketSuccessView } from "@/components/market-success-view"
 import { MarketMyBoothsView } from "@/components/market-my-booths-view"
 import { InteractiveApp } from "@/components/interactive-app"
 import { MapListView } from "@/components/map-list-view"
+import { CheckinView } from "@/components/checkin-view"
+import { CommentSubmitView } from "@/components/comment-submit-view"
 import { FeedbackListView } from "@/components/feedback-list-view"
 import { FeedbackSubmitView } from "@/components/feedback-submit-view"
 import { FeedbackDetailView } from "@/components/feedback-detail-view"
 import { FeedbackSuccessView } from "@/components/feedback-success-view"
 import { ProfileView } from "@/components/profile-view"
+import { VenueListView } from "@/components/venue-list-view"
 import { VenueMapView } from "@/components/venue-map-view"
 import { VenueDetailView } from "@/components/venue-detail-view"
+import { VenueBookingFormView } from "@/components/venue-booking-form-view"
 import { VenueBookingSuccessView } from "@/components/venue-booking-success-view"
+import { VenueMyBookingsView } from "@/components/venue-my-bookings-view"
 import { AIChatView } from "@/components/ai-chat-view"
 import { AISportsChatView } from "@/components/ai-sports-chat-view"
 import { AIActivityChatView } from "@/components/ai-activity-chat-view"
@@ -67,26 +77,29 @@ export default function Home() {
       </div>
 
       {/* Interactive Demo */}
-      <section className="mb-16">
-        <div className="text-center mb-6">
-          <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
-            <span className="w-8 h-0.5 rounded-full bg-primary" />
-            交互式演示
-            <span className="w-8 h-0.5 rounded-full bg-primary" />
-          </h2>
-          <p className="text-xs text-muted-foreground mt-2">点击菜单项可在页面间导航</p>
-        </div>
-        <div className="flex justify-center">
-          <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>可交互原型</ScreenLabel>
-            <PhoneFrame>
-              <InteractiveApp />
-            </PhoneFrame>
+      <Suspense fallback={<SectionSkeleton />}>
+        <section className="mb-16">
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+              交互式演示
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+            </h2>
+            <p className="text-xs text-muted-foreground mt-2">点击菜单项可在页面间导航</p>
           </div>
-        </div>
-      </section>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <ScreenLabel>可交互原型</ScreenLabel>
+              <PhoneFrame>
+                <InteractiveApp />
+              </PhoneFrame>
+            </div>
+          </div>
+        </section>
+      </Suspense>
 
       {/* Section 1: Original 5 screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -126,7 +139,23 @@ export default function Home() {
             </PhoneFrame>
           </div>
 
-          {/* Screen 3.5: Map List View (Text Version) */}
+          {/* Screen 3.5: Checkin View */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>景点打卡</ScreenLabel>
+            <PhoneFrame>
+              <CheckinView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 3.6: Comment Submit View */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>发布评论</ScreenLabel>
+            <PhoneFrame>
+              <CommentSubmitView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 3.7: Map List View (Text Version) */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>掌上地图(文字版)</ScreenLabel>
             <PhoneFrame>
@@ -147,18 +176,71 @@ export default function Home() {
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>活动详情</ScreenLabel>
             <PhoneFrame>
-              <div className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
-                <div className="w-8" />
-                <h1 className="text-lg font-semibold text-foreground">任务详情</h1>
-                <div className="w-8" />
-              </div>
               <ActivityDetailView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 6: Activity Apply */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>活动报名</ScreenLabel>
+            <PhoneFrame>
+              <ActivityApplyView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 7: Activity Apply Success */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>报名成功</ScreenLabel>
+            <PhoneFrame>
+              <ActivityApplySuccessView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 8: My Registrations */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我的报名</ScreenLabel>
+            <PhoneFrame>
+              <ActivityMyRegistrationsView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 9: Activity Checkin */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>活动打卡</ScreenLabel>
+            <PhoneFrame>
+              <ActivityCheckinView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 10: Activity Publish */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>发布活动</ScreenLabel>
+            <PhoneFrame>
+              <ActivityPublishView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 11: My Published Activities */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我发布的活动</ScreenLabel>
+            <PhoneFrame>
+              <ActivityMyPublishedView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 12: Activity Registrants */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>报名人员列表</ScreenLabel>
+            <PhoneFrame>
+              <ActivityRegistrantsView />
             </PhoneFrame>
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 2: Services screen */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -177,8 +259,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 3: Notice screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -204,8 +288,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 4: Canteen screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -252,8 +338,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 5: Childcare screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -279,8 +367,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 6: Job Recruitment screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -320,15 +410,17 @@ export default function Home() {
           </div>
           {/* My Applications */}
           <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>我的申请</ScreenLabel>
+            <ScreenLabel>我的���请</ScreenLabel>
             <PhoneFrame>
               <JobMyApplicationsView />
             </PhoneFrame>
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 7: Market screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -375,8 +467,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 8: Feedback screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -416,8 +510,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 9: Profile */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -435,8 +531,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 10: Venue Booking */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -446,6 +544,13 @@ export default function Home() {
           </h2>
         </div>
         <div className="flex flex-wrap justify-center gap-6">
+          {/* Venue List */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>场地列表</ScreenLabel>
+            <PhoneFrame>
+              <VenueListView />
+            </PhoneFrame>
+          </div>
           {/* Venue Map */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>场地分布图</ScreenLabel>
@@ -460,6 +565,13 @@ export default function Home() {
               <VenueDetailView />
             </PhoneFrame>
           </div>
+          {/* Booking Form */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>预约填写信息</ScreenLabel>
+            <PhoneFrame>
+              <VenueBookingFormView />
+            </PhoneFrame>
+          </div>
           {/* Booking Success */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>预约成功</ScreenLabel>
@@ -467,10 +579,19 @@ export default function Home() {
               <VenueBookingSuccessView />
             </PhoneFrame>
           </div>
+          {/* My Bookings */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我的预约</ScreenLabel>
+            <PhoneFrame>
+              <VenueMyBookingsView />
+            </PhoneFrame>
+          </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 11: AI Chat */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -542,8 +663,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 12: Community Forum */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section>
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -604,7 +727,26 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
     </main>
+  )
+}
+
+function SectionSkeleton() {
+  return (
+    <div className="mb-16">
+      <div className="flex justify-center mb-6">
+        <div className="h-6 w-48 rounded-full bg-muted animate-pulse" />
+      </div>
+      <div className="flex flex-wrap justify-center gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="flex flex-col items-center gap-3">
+            <div className="h-5 w-20 rounded-full bg-muted animate-pulse" />
+            <div className="w-[390px] h-[700px] rounded-[40px] bg-muted animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
