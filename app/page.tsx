@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { Suspense } from "react"
 import { PhoneFrame } from "@/components/phone-frame"
 import { AppHeader } from "@/components/app-header"
 import { CategoryTabs } from "@/components/category-tabs"
@@ -73,26 +71,29 @@ export default function Home() {
       </div>
 
       {/* Interactive Demo */}
-      <section className="mb-16">
-        <div className="text-center mb-6">
-          <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
-            <span className="w-8 h-0.5 rounded-full bg-primary" />
-            交互式演示
-            <span className="w-8 h-0.5 rounded-full bg-primary" />
-          </h2>
-          <p className="text-xs text-muted-foreground mt-2">点击菜单项可在页面间导航</p>
-        </div>
-        <div className="flex justify-center">
-          <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>可交互原型</ScreenLabel>
-            <PhoneFrame>
-              <InteractiveApp />
-            </PhoneFrame>
+      <Suspense fallback={<SectionSkeleton />}>
+        <section className="mb-16">
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+              交互式演示
+              <span className="w-8 h-0.5 rounded-full bg-primary" />
+            </h2>
+            <p className="text-xs text-muted-foreground mt-2">点击菜单项可在页面间导航</p>
           </div>
-        </div>
-      </section>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <ScreenLabel>可交互原型</ScreenLabel>
+              <PhoneFrame>
+                <InteractiveApp />
+              </PhoneFrame>
+            </div>
+          </div>
+        </section>
+      </Suspense>
 
       {/* Section 1: Original 5 screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -206,8 +207,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 2: Services screen */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -226,8 +229,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 3: Notice screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -253,8 +258,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 4: Canteen screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -301,8 +308,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 5: Childcare screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -328,8 +337,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 6: Job Recruitment screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -369,15 +380,17 @@ export default function Home() {
           </div>
           {/* My Applications */}
           <div className="flex flex-col items-center gap-3">
-            <ScreenLabel>我的申请</ScreenLabel>
+            <ScreenLabel>我的���请</ScreenLabel>
             <PhoneFrame>
               <JobMyApplicationsView />
             </PhoneFrame>
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 7: Market screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -424,8 +437,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 8: Feedback screens */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -465,8 +480,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 9: Profile */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -484,8 +501,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 10: Venue Booking */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -518,8 +537,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 11: AI Chat */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section className="mb-16">
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -591,8 +612,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
 
       {/* Section 12: Community Forum */}
+      <Suspense fallback={<SectionSkeleton />}>
       <section>
         <div className="text-center mb-6">
           <h2 className="text-lg font-bold text-foreground inline-flex items-center gap-2">
@@ -653,7 +676,26 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </Suspense>
     </main>
+  )
+}
+
+function SectionSkeleton() {
+  return (
+    <div className="mb-16">
+      <div className="flex justify-center mb-6">
+        <div className="h-6 w-48 rounded-full bg-muted animate-pulse" />
+      </div>
+      <div className="flex flex-wrap justify-center gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="flex flex-col items-center gap-3">
+            <div className="h-5 w-20 rounded-full bg-muted animate-pulse" />
+            <div className="w-[390px] h-[700px] rounded-[40px] bg-muted animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
