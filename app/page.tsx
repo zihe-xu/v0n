@@ -48,9 +48,12 @@ import { FeedbackSubmitView } from "@/components/feedback-submit-view"
 import { FeedbackDetailView } from "@/components/feedback-detail-view"
 import { FeedbackSuccessView } from "@/components/feedback-success-view"
 import { ProfileView } from "@/components/profile-view"
+import { VenueListView } from "@/components/venue-list-view"
 import { VenueMapView } from "@/components/venue-map-view"
 import { VenueDetailView } from "@/components/venue-detail-view"
+import { VenueBookingFormView } from "@/components/venue-booking-form-view"
 import { VenueBookingSuccessView } from "@/components/venue-booking-success-view"
+import { VenueMyBookingsView } from "@/components/venue-my-bookings-view"
 import { AIChatView } from "@/components/ai-chat-view"
 import { AISportsChatView } from "@/components/ai-sports-chat-view"
 import { AIActivityChatView } from "@/components/ai-activity-chat-view"
@@ -541,6 +544,13 @@ export default function Home() {
           </h2>
         </div>
         <div className="flex flex-wrap justify-center gap-6">
+          {/* Venue List */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>场地列表</ScreenLabel>
+            <PhoneFrame>
+              <VenueListView />
+            </PhoneFrame>
+          </div>
           {/* Venue Map */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>场地分布图</ScreenLabel>
@@ -555,11 +565,25 @@ export default function Home() {
               <VenueDetailView />
             </PhoneFrame>
           </div>
+          {/* Booking Form */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>预约填写信息</ScreenLabel>
+            <PhoneFrame>
+              <VenueBookingFormView />
+            </PhoneFrame>
+          </div>
           {/* Booking Success */}
           <div className="flex flex-col items-center gap-3">
             <ScreenLabel>预约成功</ScreenLabel>
             <PhoneFrame>
               <VenueBookingSuccessView />
+            </PhoneFrame>
+          </div>
+          {/* My Bookings */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我的预约</ScreenLabel>
+            <PhoneFrame>
+              <VenueMyBookingsView />
             </PhoneFrame>
           </div>
         </div>
