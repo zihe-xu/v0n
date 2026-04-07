@@ -11,6 +11,9 @@ import { ActivityApplyView } from "@/components/activity-apply-view"
 import { ActivityApplySuccessView } from "@/components/activity-apply-success-view"
 import { ActivityMyRegistrationsView } from "@/components/activity-my-registrations-view"
 import { ActivityCheckinView } from "@/components/activity-checkin-view"
+import { ActivityPublishView } from "@/components/activity-publish-view"
+import { ActivityMyPublishedView } from "@/components/activity-my-published-view"
+import { ActivityRegistrantsView } from "@/components/activity-registrants-view"
 import { CommunityHeader } from "@/components/community-header"
 import { RecommendView } from "@/components/recommend-view"
 import { ExchangeView } from "@/components/exchange-view"
@@ -203,6 +206,30 @@ export default function Home() {
             <ScreenLabel>活动打卡</ScreenLabel>
             <PhoneFrame>
               <ActivityCheckinView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 10: Activity Publish */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>发布活动</ScreenLabel>
+            <PhoneFrame>
+              <ActivityPublishView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 11: My Published Activities */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>我发布的活动</ScreenLabel>
+            <PhoneFrame>
+              <ActivityMyPublishedView />
+            </PhoneFrame>
+          </div>
+
+          {/* Screen 12: Activity Registrants */}
+          <div className="flex flex-col items-center gap-3">
+            <ScreenLabel>报名人员列表</ScreenLabel>
+            <PhoneFrame>
+              <ActivityRegistrantsView />
             </PhoneFrame>
           </div>
         </div>
